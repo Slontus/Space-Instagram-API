@@ -1,10 +1,10 @@
-#Space Instagram
+# Space Instagram
 This program consists of several modules: two of them
 download images from Spacex last launch and Hubble collection,
 the last one resizes downloaded images and uploads them to 
 instagram account.
 
-###How to Install
+### How to Install
 Python3 should be already installed. Then use pip (or pip3,
 if there is a conflict with Python2) to install dependencies:
 ```
@@ -18,6 +18,6 @@ PASSWORD: "your password"
 ```
 By default all images will be saved in **images** folder
 which will be created in your current directory.
-###Pgoject Goals
+### Project Goals
 The code is written for educational purposes on online-course 
 for web-developers [dvmn.org](https://dvmn.org).
