@@ -1,5 +1,6 @@
 import requests
 import os
+from operations import image_download, create_directory
 
 HUBBLE_FILENAME = 'hubble'
 DIRECTORY = 'images'
@@ -11,7 +12,6 @@ def fetch_collection_image_ids(collection):
     payload = {"page": "all", "collection_name": collection}
     response = requests.get(URL_HUBBLE + 's', payload)
     response.raise_for_status()
-    print(response.status_code)
     image_ids = [x['id'] for x in response.json()]
     return image_ids
 
@@ -23,30 +23,12 @@ def fetch_hubble_image(image_id):
     image_data = response.json()['image_files']
     url_list = [x['file_url'] for x in image_data]
     file_url = url_list[-1].replace('//imgsrc.hubblesite.org/hvi', 'https://hubblesite.org')
-    file_name = str(image_id).join([HUBBLE_FILENAME, fetch_file_extension(file_url)])
+    file_name = str(image_id).join([HUBBLE_FILENAME, os.path.splitext(file_url)[1]])
     image_download(file_url, file_name)
 
 
-def fetch_file_extension(url):
-    extension = url.split('.')[-1]
-    return '.' + extension
-
-
-def crete_download_directory(directory_path):
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-
-
-def image_download(url, filename):
-    file_path = os.path.join(DIRECTORY, filename)
-    response = requests.get(url)
-    response.raise_for_status()
-    with open(file_path, 'wb') as _file:
-        _file.write(response.content)
-
-
 def main():
-    crete_download_directory(DIRECTORY)
+    create_directory()
     try:
         image_ids = fetch_collection_image_ids(HUBBLE_COLLECTIONS[1])
         for _id in image_ids:

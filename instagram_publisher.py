@@ -3,8 +3,10 @@ from PIL import Image
 from instabot import Bot
 from dotenv import load_dotenv
 import time
+from operations import DIRECTORY
 
-DIRECTORY = 'images'
+MIN_ALLOWED_RATIO = 0.8
+MAX_ALLOWED_RATIO = 1.91
 
 
 def image_resize(filename):
@@ -13,12 +15,12 @@ def image_resize(filename):
     if image.mode == "RGBA":
         return
     ratio = image.width/image.height
-    if ratio < 0.8:
-        new_height = image.width / 0.8
+    if ratio < MIN_ALLOWED_RATIO:
+        new_height = image.width / MIN_ALLOWED_RATIO
         coordinates = (0, (image.height - new_height)/2, image.width, image.height - (image.height - new_height)/2)
         image = image.crop(coordinates)
-    elif ratio > 1.91:
-        new_height = image.width / 1.91
+    elif ratio > MAX_ALLOWED_RATIO:
+        new_height = image.width / MAX_ALLOWED_RATIO
         coordinates = (0, (image.height - new_height)/2, image.width, image.height - (image.height - new_height)/2)
         image = image.crop(coordinates)
     dimensions = image.size

@@ -1,14 +1,8 @@
 import requests
-import os
+from operations import create_directory, image_download
 
 SPACEX_FILENAME = 'spacex'
 URL_LAST_LAUNCH = 'https://api.spacexdata.com/v3/launches/latest'
-DIRECTORY = 'images'
-
-
-def fetch_file_extension(url):
-    extension = url.split('.')[-1]
-    return '.' + extension
 
 
 def fetch_spacex_launch(url):
@@ -17,21 +11,8 @@ def fetch_spacex_launch(url):
     return response.json()['links']['flickr_images']
 
 
-def crete_download_directory(directory_path):
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-
-
-def image_download(url, filename):
-    file_path = os.path.join(DIRECTORY, filename)
-    response = requests.get(url)
-    response.raise_for_status()
-    with open(file_path, 'wb') as _file:
-        _file.write(response.content)
-
-
 def main():
-    crete_download_directory(DIRECTORY)
+    create_directory()
     try:
         for i, link in enumerate(fetch_spacex_launch(URL_LAST_LAUNCH)):
             file = str(i + 1).join([SPACEX_FILENAME, '.jpg'])
