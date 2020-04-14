@@ -3,3 +3,4 @@
 /.env
 /images
 /config
+/__pycache__

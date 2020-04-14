@@ -3,7 +3,6 @@ import os
 from operations import image_download, create_directory
 
 HUBBLE_FILENAME = 'hubble'
-DIRECTORY = 'images'
 URL_HUBBLE = 'http://hubblesite.org/api/v3/image'
 HUBBLE_COLLECTIONS = ["holiday_cards", "wallpaper", "spacecraft", "news", "printshop", "stsci_gallery"]
 
@@ -30,7 +29,7 @@ def fetch_hubble_image(image_id):
 def main():
     create_directory()
     try:
-        image_ids = fetch_collection_image_ids(HUBBLE_COLLECTIONS[1])
+        image_ids = fetch_collection_image_ids(HUBBLE_COLLECTIONS[2])
         for _id in image_ids:
             print(f"downloading hubble image {_id}...")
             fetch_hubble_image(_id)
